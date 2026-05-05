@@ -2,6 +2,7 @@ package expo.modules.ui
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.interaction.DragInteraction
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
@@ -23,6 +24,7 @@ import expo.modules.kotlin.views.FunctionalComposableScope
 import expo.modules.kotlin.types.Either
 import expo.modules.kotlin.types.OptimizedRecord
 import expo.modules.kotlin.views.OptimizedComposeProps
+import expo.modules.ui.state.WorkletCallback
 
 @OptimizedRecord
 data class HorizontalPagerCurrentPageChangeEvent(
@@ -34,6 +36,22 @@ data class HorizontalPagerSettledPageChangeEvent(
   @Field val position: Int = 0
 ) : Record
 
+@OptimizedRecord
+data class HorizontalPagerPageScrollEvent(
+  @Field val currentPage: Int = 0,
+  @Field val currentPageOffsetFraction: Float = 0f
+) : Record
+
+@OptimizedRecord
+data class HorizontalPagerScrollInProgressChangeEvent(
+  @Field val isScrollInProgress: Boolean = false
+) : Record
+
+@OptimizedRecord
+data class HorizontalPagerDragInteractionEvent(
+  @Field val kind: String = "start"
+) : Record
+
 @OptimizedComposeProps
 data class HorizontalPagerProps(
   val initialPage: Int = 0,
@@ -42,6 +60,7 @@ data class HorizontalPagerProps(
   val userScrollEnabled: Boolean = true,
   val reverseLayout: Boolean = false,
   val beyondViewportPageCount: Int = 0,
+  val onPageScrollSync: WorkletCallback? = null,
   val modifiers: ModifierList = emptyList()
 ) : ComposeProps
 
@@ -51,7 +70,10 @@ fun FunctionalComposableScope.HorizontalPagerContent(
   animateScrollToPage: AsyncFunctionHandle<Int>,
   scrollToPage: AsyncFunctionHandle<Int>,
   onCurrentPageChange: (HorizontalPagerCurrentPageChangeEvent) -> Unit,
-  onSettledPageChange: (HorizontalPagerSettledPageChangeEvent) -> Unit
+  onSettledPageChange: (HorizontalPagerSettledPageChangeEvent) -> Unit,
+  onPageScroll: (HorizontalPagerPageScrollEvent) -> Unit,
+  onScrollInProgressChange: (HorizontalPagerScrollInProgressChangeEvent) -> Unit,
+  onDragInteraction: (HorizontalPagerDragInteractionEvent) -> Unit
 ) {
   // Mirror view.size into snapshot state so the outer scope recomposes when
   // children are added/removed. Without this, Compose's pager caches its
@@ -92,15 +114,56 @@ fun FunctionalComposableScope.HorizontalPagerContent(
   // Mirror Compose's PagerState observable fields to JS callbacks. Drop the
   // first emission so we don't echo the initial value back on mount.
   LaunchedEffect(pagerState) {
-    snapshotFlow { pagerState.currentPage }
-      .drop(1)
-      .collect { onCurrentPageChange(HorizontalPagerCurrentPageChangeEvent(it)) }
-  }
-
-  LaunchedEffect(pagerState) {
-    snapshotFlow { pagerState.settledPage }
-      .drop(1)
-      .collect { onSettledPageChange(HorizontalPagerSettledPageChangeEvent(it)) }
+    launch {
+      snapshotFlow { pagerState.currentPage }
+        .drop(1)
+        .collect { onCurrentPageChange(HorizontalPagerCurrentPageChangeEvent(it)) }
+    }
+    launch {
+      snapshotFlow { pagerState.settledPage }
+        .drop(1)
+        .collect { onSettledPageChange(HorizontalPagerSettledPageChangeEvent(it)) }
+    }
+    launch {
+      snapshotFlow {
+        pagerState.currentPage to pagerState.currentPageOffsetFraction
+      }
+        .drop(1)
+        .collect { (currentPage, fraction) ->
+          // Mutually exclusive: the JS wrapper only wires one path at a time.
+          // Skipping the regular event when a worklet is attached avoids the
+          // per-frame Record allocation + async JS-thread event dispatch.
+          val sync = props.onPageScrollSync
+          if (sync != null) {
+            sync.invoke(currentPage, fraction)
+          } else {
+            onPageScroll(
+              HorizontalPagerPageScrollEvent(
+                currentPage = currentPage,
+                currentPageOffsetFraction = fraction
+              )
+            )
+          }
+        }
+    }
+    launch {
+      snapshotFlow { pagerState.isScrollInProgress }
+        .drop(1)
+        .collect {
+          onScrollInProgressChange(HorizontalPagerScrollInProgressChangeEvent(isScrollInProgress = it))
+        }
+    }
+    launch {
+      pagerState.interactionSource.interactions.collect { interaction ->
+        val kind = when (interaction) {
+          is DragInteraction.Start -> "start"
+          is DragInteraction.Stop -> "stop"
+          is DragInteraction.Cancel -> "cancel"
+          else -> return@collect
+        }
+        onDragInteraction(HorizontalPagerDragInteractionEvent(kind = kind))
+      }
+    }
   }
 
   val contentPadding = props.contentPadding.toPaddingValues()
