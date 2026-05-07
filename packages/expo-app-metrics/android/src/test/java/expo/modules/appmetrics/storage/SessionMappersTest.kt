@@ -100,4 +100,30 @@ class SessionMappersTest {
     assertEquals(1.5, js.value, 0.0)
     assertEquals("2025-01-01T00:00:01.000Z", js.timestamp)
   }
+
+  @Test
+  fun `encodeAnyMapToJsonString round-trips primitives, booleans and nested structures`() {
+    val encoded = encodeAnyMapToJsonString(
+      mapOf(
+        "isInitial" to true,
+        "isAppLaunch" to false,
+        "screen" to "Home",
+        "attempt" to 3,
+        "ratio" to 1.5,
+        "missing" to null,
+        "tags" to listOf("a", "b"),
+        "nested" to mapOf("k" to true)
+      )
+    )
+
+    val decoded = JsMetric.fromMetric(makeMetric(params = encoded)).params!!
+    assertEquals(true, decoded["isInitial"])
+    assertEquals(false, decoded["isAppLaunch"])
+    assertEquals("Home", decoded["screen"])
+    assertEquals(3L, decoded["attempt"])
+    assertEquals(1.5, decoded["ratio"])
+    assertNull(decoded["missing"])
+    assertEquals(listOf("a", "b"), decoded["tags"])
+    assertEquals(mapOf("k" to true), decoded["nested"])
+  }
 }

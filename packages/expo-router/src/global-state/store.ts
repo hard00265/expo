@@ -14,6 +14,7 @@ import { resolveHref, resolveHrefStringWithSegments } from '../link/href';
 import type { NavigationContainerRefWithCurrent } from '../react-navigation/native';
 import type { RequireContext, Href } from '../types';
 import * as SplashScreen from '../views/Splash';
+import { handleNavigationOnReady } from '../navigationEvents/navigation';
 
 export type RouterStore = typeof store;
 
@@ -84,6 +85,7 @@ export const store = {
     storeRef.current.routeInfo = routeInfo;
   },
   onReady() {
+    handleNavigationOnReady();
     if (!hasAttemptedToHideSplash) {
       setHasAttemptedToHideSplash(true);
       // NOTE(EvanBacon): `navigationRef.isReady` is sometimes not true when state is called initially.
