@@ -82,7 +82,7 @@ public class Session: MetricsReceiver, @unchecked Sendable {
         try AppMetrics.database.updateSessionActiveStatus(
           id: self.id,
           isActive: false,
-          endTimestamp: endDate.ISO8601Format()
+          endDate: endDate.ISO8601Format()
         )
         try AppMetrics.database.insert(metric: MetricRow.from(metric: durationMetric, sessionId: self.id))
       } catch {
@@ -93,7 +93,7 @@ public class Session: MetricsReceiver, @unchecked Sendable {
 
   // MARK: - Session type
 
-  public enum SessionType: String, Codable {
+  public enum SessionType: String, Codable, Sendable {
     /// The main session that tracks metrics for the entire app process lifecycle.
     case main
 
