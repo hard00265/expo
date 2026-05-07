@@ -171,6 +171,10 @@ private struct JSArrayEncodingContainer: UnkeyedEncodingContainer {
   init(to valueHolder: JSValueHolder, runtime: JavaScriptRuntime) {
     self.runtime = runtime
     self.valueHolder = valueHolder
+    // Initialize the holder with an empty JS array immediately so that encoding an empty
+    // collection still produces `[]` rather than `undefined`. Otherwise the holder keeps its
+    // default `.undefined` value when `encode(_:)` is never called.
+    valueHolder.value = .representing(value: items, in: runtime)
   }
 
   // MARK: - UnkeyedEncodingContainer
@@ -181,6 +185,9 @@ private struct JSArrayEncodingContainer: UnkeyedEncodingContainer {
 
   mutating func encodeNil() throws {
     items.append(JavaScriptValue.null)
+    if let runtime {
+      valueHolder.value = .representing(value: items, in: runtime)
+    }
   }
 
   mutating func encode<ValueType: Encodable>(_ value: ValueType) throws {
