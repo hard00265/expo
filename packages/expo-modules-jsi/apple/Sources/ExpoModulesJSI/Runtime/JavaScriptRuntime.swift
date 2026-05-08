@@ -26,7 +26,7 @@ open class JavaScriptRuntime: Equatable, @unchecked Sendable {
    `IRuntime` — the abstract base interface that virtually all JSI value/object/
    function methods take (`Value::getString`, `Object::setProperty`,
    `Function::call`, …) since RN 0.86 split the API. Stored as the upcast result
-   of ``runtimePointee`` because Swift's C++ interop does not auto-upcast between
+   of `runtimePointee` because Swift's C++ interop does not auto-upcast between
    two `SwiftImportAs: reference` types.
 
    Use ``runtimePointee`` instead when you specifically need a `jsi::Runtime&`
