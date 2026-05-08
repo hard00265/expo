@@ -1,0 +1,58 @@
+diff --git a/scripts/codegen/generate-artifacts-executor/generateReactCodegenPodspec.js b/scripts/codegen/generate-artifacts-executor/generateReactCodegenPodspec.js
+index 70221d3c988a08e474941a32fcdbbb5f5ab32e26..00e0da3d96df591faafac743fcd693f6d9b5efec 100644
+--- a/scripts/codegen/generate-artifacts-executor/generateReactCodegenPodspec.js
++++ b/scripts/codegen/generate-artifacts-executor/generateReactCodegenPodspec.js
+@@ -49,8 +49,13 @@ function getInputFiles(appPath /*: string */, appPkgJson /*: $FlowFixMe */) {
+     return '[]';
+   }
+ 
++  // Normalize appPath so any "Pods/.." segment is collapsed before find runs.
++  // Otherwise every find result inherits the search-root prefix containing
++  // "/Pods/" and gets dropped by the exclusion filter below.
++  const resolvedAppPath = path.resolve(appPath);
++
+   const xcodeproj = String(
+-    execSync(`find ${appPath} -type d -name "*.xcodeproj"`),
++    execSync(`find ${resolvedAppPath} -type d -name "*.xcodeproj"`),
+   )
+     .trim()
+     .split('\n')
+@@ -61,12 +66,12 @@ function getInputFiles(appPath /*: string */, appPkgJson /*: $FlowFixMe */) {
+     )[0];
+   if (!xcodeproj) {
+     throw new Error(
+-      `Cannot find .xcodeproj file inside ${appPath}. This is required to determine codegen spec paths relative to native project.`,
++      `Cannot find .xcodeproj file inside ${resolvedAppPath}. This is required to determine codegen spec paths relative to native project.`,
+     );
+   }
+   const jsFiles = '-name "Native*.js" -or -name "*NativeComponent.js"';
+   const tsFiles = '-name "Native*.ts" -or -name "*NativeComponent.ts"';
+-  const findCommand = `find ${path.join(appPath, jsSrcsDir)} -type f -not -path "*/__mocks__/*" -and \\( ${jsFiles} -or ${tsFiles} \\)`;
++  const findCommand = `find ${path.join(resolvedAppPath, jsSrcsDir)} -type f -not -path "*/__mocks__/*" -and \\( ${jsFiles} -or ${tsFiles} \\)`;
+   const list = String(execSync(findCommand))
+     .trim()
+     .split('\n')
+diff --git a/scripts/react_native_pods.rb b/scripts/react_native_pods.rb
+index 3296a20bbd55028abf450f13dfb017d2a9fd51f8..24ec01c196f9e959d38577f7785a57817e288ce6 100644
+--- a/scripts/react_native_pods.rb
++++ b/scripts/react_native_pods.rb
+@@ -540,7 +540,18 @@ def react_native_post_install(
+   ReactNativePodsUtils.set_build_setting(installer, build_setting: "REACT_NATIVE_PATH", value: File.join("${PODS_ROOT}", rn_relative_to_pods.to_s))
+   # Store the Podfile directory as a build setting so that shell scripts can
+   # locate it without relying on PODS_ROOT/.. (breaks when Pods/ is a symlink).
+-  ReactNativePodsUtils.set_build_setting(installer, build_setting: "PODFILE_DIR", value: Pod::Config.instance.installation_root.to_s)
++  # Use Xcode variable substitution per-project so the value persisted in
++  # project.pbxproj is portable across machines.
++  installer.aggregate_targets.map(&:user_project).uniq(&:path).each do |user_project|
++    user_project.build_configurations.each do |config|
++      config.build_settings['PODFILE_DIR'] = '$(SRCROOT)'
++    end
++    user_project.save
++  end
++  installer.pods_project.build_configurations.each do |config|
++    config.build_settings['PODFILE_DIR'] = '$(SRCROOT)/..'
++  end
++  installer.pods_project.save
+   ReactNativePodsUtils.set_build_setting(installer, build_setting: "SWIFT_ACTIVE_COMPILATION_CONDITIONS", value: ['$(inherited)', 'DEBUG'], config_name: "Debug")
+ 
+   if (ENV['RCT_REMOVE_LEGACY_ARCH'] == '1')

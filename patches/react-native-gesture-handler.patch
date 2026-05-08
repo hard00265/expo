@@ -1,0 +1,42 @@
+diff --git a/lib/commonjs/RNRenderer.js b/lib/commonjs/RNRenderer.js
+index 7845103a88ce49f6cef0f68a904974c0f84da645..d05a6095048af51f4091be194a1d38b3c2208d02 100644
+--- a/lib/commonjs/RNRenderer.js
++++ b/lib/commonjs/RNRenderer.js
+@@ -6,9 +6,10 @@ Object.defineProperty(exports, "__esModule", {
+ Object.defineProperty(exports, "RNRenderer", {
+   enumerable: true,
+   get: function () {
+-    return _ReactNative.default;
++    return _RendererProxy;
+   }
+ });
+-var _ReactNative = _interopRequireDefault(require("react-native/Libraries/Renderer/shims/ReactNative"));
+-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
++var _RendererProxy = _interopRequireWildcard(require("react-native/Libraries/ReactNative/RendererProxy"));
++function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
++function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
+ //# sourceMappingURL=RNRenderer.js.map
+\ No newline at end of file
+diff --git a/lib/module/RNRenderer.js b/lib/module/RNRenderer.js
+index be7999d6237748e3834183835c3e2a064841c8db..360df348174c507f74299150e14268a921e48093 100644
+--- a/lib/module/RNRenderer.js
++++ b/lib/module/RNRenderer.js
+@@ -2,5 +2,6 @@
+ 
+ // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+ // @ts-nocheck
+-export { default as RNRenderer } from 'react-native/Libraries/Renderer/shims/ReactNative';
++import * as RNRenderer from 'react-native/Libraries/ReactNative/RendererProxy';
++export { RNRenderer };
+ //# sourceMappingURL=RNRenderer.js.map
+\ No newline at end of file
+diff --git a/src/RNRenderer.ts b/src/RNRenderer.ts
+index 7a585b64c0bc7167718e187e96b29ad8c7cbff17..433248a1fc90e7b213653560b04922b7ab75caab 100644
+--- a/src/RNRenderer.ts
++++ b/src/RNRenderer.ts
+@@ -1,3 +1,4 @@
+ // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+ // @ts-nocheck
+-export { default as RNRenderer } from 'react-native/Libraries/Renderer/shims/ReactNative';
++import * as RNRenderer from 'react-native/Libraries/ReactNative/RendererProxy';
++export { RNRenderer };
