@@ -11,6 +11,7 @@
 ### 💡 Others
 
 - Remove pinned dependencies ([#45520](https://github.com/expo/expo/pull/45520) by [@kitten](https://githun.com/kitten))
+- Improve the error message for missing dependencies of js-top-tabs ([#45547](https://github.com/expo/expo/pull/45547) by [@Ubax](https://github.com/Ubax))
 
 ## 56.1.0 — 2026-05-07
 

@@ -14,9 +14,11 @@ try {
     const tabViewModule = require('react-native-tab-view');
     TabBar = tabViewModule.TabBar;
     TabBarIndicator = tabViewModule.TabBarIndicator;
+    // This import is here, only to validate that the package is installed - required for native view
+    require('react-native-pager-view');
 }
 catch (e) {
-    throw new Error("Install the 'react-native-tab-view' package and its peer dependencies to use the Expo Router's TopTabs.");
+    throw new Error("Install 'react-native-tab-view' and 'react-native-pager-view' packages to use the Expo Router's TopTabs.");
 }
 const renderLabelDefault = ({ color, labelText, style, allowFontScaling }) => {
     return ((0, jsx_runtime_1.jsx)(elements_1.Text, { style: [{ color }, styles.label, style], allowFontScaling: allowFontScaling, children: labelText }));
