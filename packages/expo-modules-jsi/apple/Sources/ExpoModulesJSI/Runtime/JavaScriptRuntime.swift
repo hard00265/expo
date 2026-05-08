@@ -22,14 +22,25 @@ internal import ExpoModulesJSI_Cxx
  */
 open class JavaScriptRuntime: Equatable, @unchecked Sendable {
   /**
-   The underlying JSI runtime this `JavaScriptRuntime` points to.
-   Note that `facebook.jsi.Runtime` is annotated with `SWIFT_UNSAFE_REFERENCE` in our copy of `jsi.h` header,
-   so for the Swift compiler it is treated as a reference type (like `class` and not `struct`).
-   This is important because the `facebook.jsi.Runtime`:
-   - is an abstract class with many virtual methods. Swift/C++ interop does not support calling pure virtual methods on value types.
-   - is non-copyable. As a value type, we would have to "borrow" it from React Native in an unsafe manner.
+   The underlying JSI runtime this `JavaScriptRuntime` points to, exposed as
+   `IRuntime` — the abstract base interface that virtually all JSI value/object/
+   function methods take (`Value::getString`, `Object::setProperty`,
+   `Function::call`, …) since RN 0.86 split the API. Stored as the upcast result
+   of ``runtimePointee`` because Swift's C++ interop does not auto-upcast between
+   two `SwiftImportAs: reference` types.
+
+   Use ``runtimePointee`` instead when you specifically need a `jsi::Runtime&`
+   (e.g. constructing an `expo.RuntimeScheduler` whose binding lookup is typed on
+   `Runtime&` upstream).
+
+   Note that `facebook.jsi.IRuntime` and `facebook.jsi.Runtime` are imported as
+   reference types so for the Swift compiler they are treated like classes.
+   This is important because they:
+   - are abstract classes with many virtual methods. Swift/C++ interop does not support calling pure virtual methods on value types.
+   - are non-copyable. As value types, we would have to "borrow" them from React Native in an unsafe manner.
    */
-  internal let pointee: facebook.jsi.Runtime
+  internal let pointee: facebook.jsi.IRuntime
+  internal let runtimePointee: facebook.jsi.Runtime
   internal let scheduler: expo.RuntimeScheduler
 
   /**
@@ -41,7 +52,8 @@ open class JavaScriptRuntime: Equatable, @unchecked Sendable {
    Creates a runtime from the JSI runtime.
    */
   internal init(_ runtime: facebook.jsi.Runtime) {
-    self.pointee = runtime
+    self.runtimePointee = runtime
+    self.pointee = expo.iruntime(runtime)
     self.scheduler = expo.RuntimeScheduler(runtime)
   }
 
@@ -49,8 +61,10 @@ open class JavaScriptRuntime: Equatable, @unchecked Sendable {
    Creates Hermes runtime.
    */
   public init() {
-    self.pointee = expo.createHermesRuntime()
-    self.scheduler = expo.RuntimeScheduler(pointee)
+    let runtime = expo.createHermesRuntime()
+    self.runtimePointee = runtime
+    self.pointee = expo.iruntime(runtime)
+    self.scheduler = expo.RuntimeScheduler(runtime)
   }
 
   /**
@@ -58,7 +72,8 @@ open class JavaScriptRuntime: Equatable, @unchecked Sendable {
    */
   public init(unsafePointer: UnsafeMutableRawPointer) {
     let runtime = unsafeBitCast(unsafePointer, to: facebook.jsi.Runtime.self)
-    self.pointee = runtime
+    self.runtimePointee = runtime
+    self.pointee = expo.iruntime(runtime)
     self.scheduler = expo.RuntimeScheduler(runtime)
   }
 
@@ -67,7 +82,7 @@ open class JavaScriptRuntime: Equatable, @unchecked Sendable {
    The pointer is valid only for the duration of the closure and must not be stored or escaped.
    */
   public func withUnsafePointee<R>(_ body: (UnsafeMutableRawPointer) throws -> R) rethrows -> R {
-    return try body(Unmanaged<facebook.jsi.Runtime>.passUnretained(pointee).toOpaque())
+    return try body(Unmanaged<facebook.jsi.Runtime>.passUnretained(runtimePointee).toOpaque())
   }
 
   /**

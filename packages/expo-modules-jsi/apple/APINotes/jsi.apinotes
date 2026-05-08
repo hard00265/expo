@@ -14,3 +14,11 @@ Namespaces:
       SwiftImportAs: reference
       SwiftReleaseOp: immortal
       SwiftRetainOp: immortal
+    # IRuntime is the abstract base interface introduced in RN 0.86 — JSI value
+    # methods (`Value::getString`, `String::createFromUtf8`, `WeakObject::lock`, …)
+    # now take `IRuntime&` instead of `Runtime&`. Without this entry, Swift can't
+    # import any method whose signature mentions IRuntime.
+    - Name: IRuntime
+      SwiftImportAs: reference
+      SwiftReleaseOp: immortal
+      SwiftRetainOp: immortal
