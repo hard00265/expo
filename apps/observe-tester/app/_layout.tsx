@@ -3,15 +3,6 @@ import ExpoObserve, { AppMetricsRoot } from 'expo-observe';
 import { Stack } from 'expo-router';
 import { useColorScheme } from 'react-native';
 
-import { startLoggingRouterMetrics } from '@/router-metrics-integration';
-
-// Toggle to enable per screen router metrics logging
-const IS_ROUTER_INTEGRATION_ENABLED = false;
-
-if (IS_ROUTER_INTEGRATION_ENABLED) {
-  startLoggingRouterMetrics();
-}
-
 ExpoObserve.configure({
   environment: 'custom-env',
   dispatchingEnabled: true,
