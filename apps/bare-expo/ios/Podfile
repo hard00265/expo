@@ -49,6 +49,16 @@ abstract_target 'BareExpoMain' do
         config[:reactNativePath],
         :mac_catalyst_enabled => false
       )
+
+      # Override PODFILE_DIR (set to an absolute path by react_native_post_install)
+      # so the value persisted in project.pbxproj is portable across machines.
+      installer.aggregate_targets.each do |aggregate_target|
+        user_project = aggregate_target.user_project
+        user_project.build_configurations.each do |config|
+          config.build_settings['PODFILE_DIR'] = '$(SRCROOT)'
+        end
+        user_project.save
+      end
     end
 
     # This is necessary for Xcode 14, because it signs resource bundles by default
