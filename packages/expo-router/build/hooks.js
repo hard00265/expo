@@ -46,6 +46,7 @@ exports.useGlobalSearchParams = useGlobalSearchParams;
 exports.useLocalSearchParams = useLocalSearchParams;
 exports.useSearchParams = useSearchParams;
 exports.useLoaderData = useLoaderData;
+exports.useCurrentRouteInfo = useCurrentRouteInfo;
 const react_1 = __importStar(require("react"));
 const Route_1 = require("./Route");
 const constants_1 = require("./constants");
@@ -60,6 +61,7 @@ const getLoaderData_1 = require("./loaders/getLoaderData");
 const utils_1 = require("./loaders/utils");
 const native_1 = require("./react-navigation/native");
 const useScreens_1 = require("./useScreens");
+const routeInfoCache_1 = require("./global-state/routeInfoCache");
 /**
  * Returns the [navigation state](https://reactnavigation.org/docs/navigation-state/)
  * of the navigator which contains the current screen.
@@ -297,5 +299,15 @@ function useLoaderData() {
         return (0, react_1.use)(result);
     }
     return result;
+}
+/**
+ * Returns route info for a screen it is called from.
+ *
+ * @experimental
+ */
+function useCurrentRouteInfo() {
+    const state = (0, native_1.useStateForPath)();
+    const routeInfo = (0, react_1.useMemo)(() => (state ? (0, routeInfoCache_1.getCachedRouteInfo)(state) : undefined), [state]);
+    return routeInfo;
 }
 //# sourceMappingURL=hooks.js.map

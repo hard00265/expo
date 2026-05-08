@@ -18,6 +18,7 @@ import type { NavigationProp, NavigationState } from './react-navigation/native'
 import { useNavigation, useStateForPath } from './react-navigation/native';
 import type { RouteParams, RouteSegments, UnknownOutputParams, RoutePath } from './types';
 import { getSingularId } from './useScreens';
+import { getCachedRouteInfo } from './global-state/routeInfoCache';
 
 export { useRouteInfo };
 
@@ -412,4 +413,15 @@ export function useLoaderData<T extends LoaderFunction<any> = any>(): LoaderFunc
   }
 
   return result;
+}
+
+/**
+ * Returns route info for a screen it is called from.
+ * 
+ * @experimental
+ */
+export function useCurrentRouteInfo() {
+  const state = useStateForPath();
+  const routeInfo = useMemo(() => (state ? getCachedRouteInfo(state) : undefined), [state]);
+  return routeInfo;
 }
