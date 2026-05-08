@@ -3,7 +3,8 @@
 #include <exception>
 #include <memory>
 #include <swift/bridging>
-#include <jsi/jsi.h>
+
+#include "IRuntimeCompat.h"
 
 namespace expo {
 

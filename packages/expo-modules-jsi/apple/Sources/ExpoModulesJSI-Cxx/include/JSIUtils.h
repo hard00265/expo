@@ -3,10 +3,11 @@
 #pragma once
 #ifdef __cplusplus
 
-#include <jsi/jsi.h>
 #include <hermes/hermes.h>
+
 #include "HostFunctionClosure.h"
 #include "CppError.h"
+#include "IRuntimeCompat.h"
 #include "MemoryBuffer.h"
 #include "NativeState.h"
 #include "TypedArray.h"

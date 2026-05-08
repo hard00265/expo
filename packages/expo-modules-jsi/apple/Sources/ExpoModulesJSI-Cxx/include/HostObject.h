@@ -4,10 +4,10 @@
 
 #include <string>
 #include <vector>
-#include <jsi/jsi.h>
 
 #include "CppError.h"
 #include "HostObjectCallbacks.h"
+#include "IRuntimeCompat.h"
 
 namespace jsi = facebook::jsi;
 

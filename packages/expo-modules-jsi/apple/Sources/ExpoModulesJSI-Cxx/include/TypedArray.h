@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <jsi/jsi.h>
+#include "IRuntimeCompat.h"
 
 namespace jsi = facebook::jsi;
 
