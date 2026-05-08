@@ -4,6 +4,8 @@
 
 ### 🛠 Breaking changes
 
+- Removed `@expo/vector-icons` from the `expo` package's dependencies. ([#45563](https://github.com/expo/expo/pull/45563) by [@vonovak](https://github.com/vonovak))
+
 ### 🎉 New features
 
 ### 🐛 Bug fixes
