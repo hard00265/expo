@@ -1,10 +1,10 @@
 PODS:
-  - EXConstants (56.0.4):
+  - EXConstants (56.0.5):
     - ExpoModulesCore
   - EXJSONUtils (56.0.0)
   - EXManifests (56.0.2):
     - ExpoModulesCore
-  - Expo (56.0.0-preview.5):
+  - Expo (56.0.0-preview.6):
     - ExpoModulesCore
     - ExpoModulesJSI
     - hermes-engine
@@ -30,8 +30,8 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - expo-dev-menu (56.0.3):
-    - expo-dev-menu/Main (= 56.0.3)
+  - expo-dev-menu (56.0.4):
+    - expo-dev-menu/Main (= 56.0.4)
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -54,7 +54,7 @@ PODS:
     - ReactNativeDependencies
     - Yoga
   - expo-dev-menu-interface (56.0.1)
-  - expo-dev-menu/Main (56.0.3):
+  - expo-dev-menu/Main (56.0.4):
     - EXManifests
     - expo-dev-menu-interface
     - ExpoModulesCore
@@ -80,9 +80,9 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - ExpoAsset (56.0.4):
+  - ExpoAsset (56.0.5):
     - ExpoModulesCore
-  - ExpoBrownfield (56.0.3):
+  - ExpoBrownfield (56.0.4):
     - ExpoModulesCore
   - ExpoDevice (56.0.4):
     - ExpoModulesCore
@@ -105,9 +105,9 @@ PODS:
     - ExpoModulesCore
   - ExpoLinking (56.0.3):
     - ExpoModulesCore
-  - ExpoLogBox (56.0.4):
+  - ExpoLogBox (56.0.5):
     - React-Core
-  - ExpoModulesCore (56.0.3):
+  - ExpoModulesCore (56.0.4):
     - ExpoModulesJSI
     - hermes-engine
     - RCTRequired
@@ -135,22 +135,22 @@ PODS:
     - React-Core
     - React-runtimescheduler
     - ReactCommon
-  - ExpoModulesWorklets (56.0.3):
+  - ExpoModulesWorklets (56.0.4):
     - ExpoModulesCore
     - ExpoModulesJSI
-  - ExpoModulesWorkletsAdapter (56.0.3):
+  - ExpoModulesWorkletsAdapter (56.0.4):
     - ExpoModulesCore
     - ExpoModulesJSI
     - ExpoModulesWorklets
     - RNWorklets
-  - ExpoRouter (56.0.4):
+  - ExpoRouter (56.1.0):
     - ExpoModulesCore
     - RNScreens
-  - ExpoSymbols (56.0.4):
+  - ExpoSymbols (56.0.5):
     - ExpoModulesCore
   - ExpoSystemUI (56.0.4):
     - ExpoModulesCore
-  - ExpoUI (56.0.2):
+  - ExpoUI (56.0.3):
     - ExpoModulesCore
     - ExpoModulesWorklets
     - React-RCTFabric
@@ -2187,7 +2187,7 @@ PODS:
     - ReactNativeDependencies
     - RNWorklets
     - Yoga
-  - RNScreens (4.25.0-beta.1):
+  - RNScreens (4.25.0-beta.3):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -2209,9 +2209,9 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
-    - RNScreens/common (= 4.25.0-beta.1)
+    - RNScreens/common (= 4.25.0-beta.3)
     - Yoga
-  - RNScreens/common (4.25.0-beta.1):
+  - RNScreens/common (4.25.0-beta.3):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -2427,7 +2427,7 @@ DEPENDENCIES:
   - "RNCMaskedView (from `../../../../node_modules/.pnpm/@react-native-masked-view+masked-view@0.3.2_react-native@0.86.0-rc.0_@babel+core@7.29.0_286b7cd9c4fa4069482eb62de34dd8d5/node_modules/@react-native-masked-view/masked-view`)"
   - "RNGestureHandler (from `../../../../node_modules/.pnpm/react-native-gesture-handler@2.30.0_react-native@0.86.0-rc.0_@babel+core@7.29.0_@react-_e9c39adcca772066bf88bc02986f1626/node_modules/react-native-gesture-handler`)"
   - "RNReanimated (from `../../../../node_modules/.pnpm/react-native-reanimated@4.3.0_patch_hash=1e34e4238541638db96b94d5a2e974e73f3b801788a3d8_ca8758c0f66a332d0529bf93691b2d18/node_modules/react-native-reanimated`)"
-  - "RNScreens (from `../../../../node_modules/.pnpm/react-native-screens@4.25.0-beta.1_react-native@0.86.0-rc.0_@babel+core@7.29.0_@react-n_11f651a764fb39158c2aff7c932432b4/node_modules/react-native-screens`)"
+  - "RNScreens (from `../../../../node_modules/.pnpm/react-native-screens@4.25.0-beta.3_react-native@0.86.0-rc.0_@babel+core@7.29.0_@react-n_dc0352f32d6bec0775e71326a64a02a6/node_modules/react-native-screens`)"
   - "RNWorklets (from `../../../../node_modules/.pnpm/react-native-worklets@0.8.3_patch_hash=3f49a21b44ba558989a3366eeff9c92ee331e18b736dbe89_5df475662b6a8ba5bb2a507f396424dc/node_modules/react-native-worklets`)"
   - "Yoga (from `../../../../node_modules/.pnpm/react-native@0.86.0-rc.0_@babel+core@7.29.0_@react-native+jest-preset@0.86.0-rc.0_@babe_4874b7b2aeef779ea981d6065bfd0ffd/node_modules/react-native/ReactCommon/yoga`)"
 
@@ -2652,21 +2652,21 @@ EXTERNAL SOURCES:
   RNReanimated:
     :path: "../../../../node_modules/.pnpm/react-native-reanimated@4.3.0_patch_hash=1e34e4238541638db96b94d5a2e974e73f3b801788a3d8_ca8758c0f66a332d0529bf93691b2d18/node_modules/react-native-reanimated"
   RNScreens:
-    :path: "../../../../node_modules/.pnpm/react-native-screens@4.25.0-beta.1_react-native@0.86.0-rc.0_@babel+core@7.29.0_@react-n_11f651a764fb39158c2aff7c932432b4/node_modules/react-native-screens"
+    :path: "../../../../node_modules/.pnpm/react-native-screens@4.25.0-beta.3_react-native@0.86.0-rc.0_@babel+core@7.29.0_@react-n_dc0352f32d6bec0775e71326a64a02a6/node_modules/react-native-screens"
   RNWorklets:
     :path: "../../../../node_modules/.pnpm/react-native-worklets@0.8.3_patch_hash=3f49a21b44ba558989a3366eeff9c92ee331e18b736dbe89_5df475662b6a8ba5bb2a507f396424dc/node_modules/react-native-worklets"
   Yoga:
     :path: "../../../../node_modules/.pnpm/react-native@0.86.0-rc.0_@babel+core@7.29.0_@react-native+jest-preset@0.86.0-rc.0_@babe_4874b7b2aeef779ea981d6065bfd0ffd/node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  EXConstants: 30b8b5775fb796f3e195995f93ea499a35b0595c
+  EXConstants: ff4f4aa47f961e65993f34f8f3762592530d4c5a
   EXJSONUtils: dba2755f4e24009eaf87a876b2d615ea06c16e42
   EXManifests: e20226d12c44cb2d27fca73c274287ff0012b40b
-  Expo: c9c213003ec48ded7db0ad3ec5777cf3b36661e6
-  expo-dev-menu: 45661410b999c741598b8fc083fb7b34c7e1b702
+  Expo: 0aea613fc40cf68d048fb06107280d16a7dbeafd
+  expo-dev-menu: 570049373caa6ca8f5605a4ed3eb27fd413b9b59
   expo-dev-menu-interface: 65402d4affb8b418aa6cec29b3abb0e313c8f443
-  ExpoAsset: 52087fc68b9ebe9fa189d4c130919dd7ff345e92
-  ExpoBrownfield: 8d4f69613ed9f2f9f1cb985acdcaa55d2fab60d1
+  ExpoAsset: 45b495ad7c9ee655ac727eab9195ab69db9615ab
+  ExpoBrownfield: d624ccfe05c6a37714d6cde5e102634a096942df
   ExpoDevice: f527f8bbefa6efa12f8ef63e9038dd1d5d903697
   ExpoDomWebView: 6061a678d7b9a4d3e9b456b651cd2031b4186f56
   ExpoFileSystem: 22e8d4b2c4a14212b95198210810686d9b8b2bff
@@ -2675,15 +2675,15 @@ SPEC CHECKSUMS:
   ExpoImage: 59f71ed6d030241ffadead114064cfd01bd0dc12
   ExpoKeepAwake: 359c47a1d9ccc3a3c519bca6e39562cce230c5bb
   ExpoLinking: 4ff9681a924c3dd4f4e5a2f32a33085e6a3ec7f1
-  ExpoLogBox: b916f43d9ebb6cf537c1fec32a7b0c428e4c645b
-  ExpoModulesCore: f380b5126db33ad50aed8f667a36d1d166caaab0
+  ExpoLogBox: 3d06486e52b87bd361e05c993b96bc9a6ecdedec
+  ExpoModulesCore: 8b5e378383c3ad1ac36aff10b33dde714bc7956c
   ExpoModulesJSI: 15a25b2948cdfe04bced3e08566a34877fe3cc1e
-  ExpoModulesWorklets: 03afe05752b44f35d2c0903525e786b468e6390a
-  ExpoModulesWorkletsAdapter: 36893442c72f24fc29761ddec181783d08ad9e43
-  ExpoRouter: 556058ce6c966e545029e793e4305a88262b1bb6
-  ExpoSymbols: 848b9d47bfbaf58173f36de961b426ded5712b5f
+  ExpoModulesWorklets: d607309c356375d45e919a12a94f15e418603adc
+  ExpoModulesWorkletsAdapter: 6dfefdce8b70bb0d6c70c740bdb54779cadca850
+  ExpoRouter: 0df827bda2ade565926bbe47463462289a4ad57e
+  ExpoSymbols: f83c91f2897d37102b98b9224c603095630be9d0
   ExpoSystemUI: 6f9eddf66c31d074c402ba4a9e5cd2320edda37f
-  ExpoUI: 53fb4b34e5d1e073ab68a243e0a60b270f0a3410
+  ExpoUI: 8aca108741d3e81b4193224df31637019a395640
   ExpoWebBrowser: fb9b5a94ebaa3483987f4acf4af6fd85c401df3e
   FBLazyVector: 9266e314e3d76052e236e5a089812482de2aa92e
   hermes-engine: cc2c3e6e786d8b19f380a703bc23b5e935fbedfc
@@ -2766,7 +2766,7 @@ SPEC CHECKSUMS:
   RNCMaskedView: eb2b2e538afa907f05a5848a1a1ac26092e6fec9
   RNGestureHandler: b958e1472fb058b55f0a9ae334ba0ba98f1c8ee7
   RNReanimated: 82a6cf14b2b725159a30f55c36ce14f49ebadc30
-  RNScreens: c476f5f41b7c4ddce3e73f838c23d40c5e33384c
+  RNScreens: 9d8bbdc7185cc51e594567e50d87c674ccee3e9c
   RNWorklets: 5d54ac04ba454e2a3ef09e5f386b71294c3f80fe
   SDWebImage: e9fc87c1aab89a8ab1bbd74eba378c6f53be8abf
   SDWebImageAVIFCoder: afe194a084e851f70228e4be35ef651df0fc5c57
